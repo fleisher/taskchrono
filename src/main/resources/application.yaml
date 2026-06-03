@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: taskchrono
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/taskchrono}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
+  docker:
+    compose:
+      enabled: true
+      lifecycle-management: start_and_stop
+      readiness:
+        wait: true
+        timeout: 120s
+
+bot:
+  token: ${BOT_TOKEN:your_bot_token}
+  username: ${BOT_USERNAME:your_bot_username}
+  webhook-url: ${BOT_WEBHOOK_URL:}
+  webhook-path: ${BOT_WEBHOOK_PATH:/telegram/webhook}
+  webhook-port: ${PORT:${BOT_WEBHOOK_PORT:8080}}
+  webhook-secret: ${BOT_WEBHOOK_SECRET:}
+
+logging:
+  level:
+    org.hibernate.SQL: info
+    org.hibernate.type.descriptor.sql.BasicBinder: trace

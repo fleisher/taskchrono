@@ -1,0 +1,13 @@
+.git
+.gradle
+.idea
+build
+env/.env
+*.iml
+
+Dockerfile*
+docker-compose*.yml
+docker-compose*.yaml
+
+README.md
+scripts

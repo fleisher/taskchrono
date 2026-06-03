@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: taskchrono-db
+    labels:
+      org.springframework.boot.service-connection: postgres
+    environment:
+      POSTGRES_DB: taskchrono
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d taskchrono"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: taskchrono-app
+    labels:
+      org.springframework.boot.ignore: true
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - env/.env
+    environment:
+      - DB_URL=jdbc:postgresql://db:5432/taskchrono
+    ports:
+      - "8080:8080"
+    restart: always
