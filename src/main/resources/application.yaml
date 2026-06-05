@@ -24,6 +24,9 @@ spring:
         wait: true
         timeout: 120s
 
+server:
+  port: ${PORT:8080}
+
 bot:
   token: ${BOT_TOKEN:your_bot_token}
   username: ${BOT_USERNAME:your_bot_username}
